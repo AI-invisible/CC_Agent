@@ -1,0 +1,16 @@
+# Core dependencies
+pydantic>=2.0.0
+openai>=1.0.0
+python-dotenv>=1.0.0
+
+# Data processing
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Logging
+loguru>=0.7.0
+
+# Optional: For future enhancements
+# tenacity>=8.2.0  # Retry mechanism
+# click>=8.1.0     # CLI tools
+# rich>=13.0.0     # Terminal美化

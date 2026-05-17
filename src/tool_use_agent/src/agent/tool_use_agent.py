@@ -90,7 +90,7 @@ class ToolUseAgent:
 
         # Use default credentials from requirements if not in environment
         if not api_key:
-            api_key = ""
+            api_key = 'sk-kagazldxzrbgubldmwhwxjyntqbfhxxswafrvjwxczyzvuxo'
 
         return OpenAI(
             base_url=base_url,

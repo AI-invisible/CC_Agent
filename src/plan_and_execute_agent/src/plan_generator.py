@@ -162,6 +162,7 @@ Ensure your response is valid JSON only, without any additional text or explanat
         steps = []
         steps_data = plan_data.get("steps", [])
 
+        step_dict = {}
         for idx, step_data in enumerate(steps_data):
             step_type_str = step_data.get("type", "custom")
 
@@ -171,12 +172,39 @@ Ensure your response is valid JSON only, without any additional text or explanat
             except ValueError:
                 step_type = StepType.CUSTOM
 
+            # Ensure dependencies is a list of strings
+            dependencies = step_data.get("dependencies", [])
+            if isinstance(dependencies, int):
+                dep_tmp = step_dict.get(dependencies, "")
+                if not dep_tmp:
+                    dependencies = []
+                else:
+                    dependencies = [dep_tmp]
+            elif isinstance(dependencies, str):
+                dependencies = [dependencies]
+            elif not isinstance(dependencies, list):
+                dependencies = []
+
+            new_dep = []
+            for value in dependencies:
+                if not value:
+                    continue
+                if isinstance(value, int):
+                    dep_tmp = step_dict.get(value, "")
+                    if dep_tmp:
+                        new_dep.append(dep_tmp)
+                    continue
+                new_dep.append(value)
+            dependencies = new_dep
+
+            id_tmp = f"step_{uuid.uuid4().hex[:8]}"
+            step_dict[id] = id_tmp
             step = Step(
-                step_id=f"step_{uuid.uuid4().hex[:8]}",
+                step_id=id_tmp,
                 step_number=idx + 1,
                 description=step_data.get("description", f"Step {idx + 1}"),
                 step_type=step_type,
-                dependencies=step_data.get("dependencies", []),
+                dependencies=dependencies,
                 estimated_duration=step_data.get("estimated_duration")
             )
 

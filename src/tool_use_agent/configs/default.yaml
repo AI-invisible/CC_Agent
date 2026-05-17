@@ -1,0 +1,23 @@
+# Tool Use Agent Default Configuration
+
+# LLM Configuration
+model_name: "deepseek-ai/DeepSeek-R1"
+temperature: 0.7
+max_tokens: 2000
+
+# Tool Calling Configuration
+max_tool_calls: 5
+tool_timeout: 30
+retry_attempts: 3
+
+# Context Management Configuration
+max_context_messages: 20
+context_summary_threshold: 15
+
+# Fallback Handling Configuration
+enable_fallback: true
+fallback_timeout: 10
+
+# LangGraph Configuration
+checkpoint_ns: "tool_use_agent"
+checkpointer_type: "memory"

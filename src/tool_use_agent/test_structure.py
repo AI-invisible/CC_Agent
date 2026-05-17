@@ -3,6 +3,16 @@ Test script to verify the basic structure
 """
 import sys
 import os
+from src.agent.base import AgentResponse, AgentConfig
+from src.agent.config import ConfigManager
+from src.tools.base import BaseTool, ToolResult, ToolParameter
+from src.tools.registry import ToolRegistry
+from src.context.session import SessionContext, Message, SessionManager
+from src.fallback.handler import FallbackHandler, FallbackChain
+from src.fallback.strategies import RetryHandler, AlternativeToolHandler
+from src.tools.examples.calculator import CalculatorTool
+from src.tools.examples.weather import WeatherTool
+from src.tools.examples.search import SearchTool
 
 # Add the project root to the Python path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

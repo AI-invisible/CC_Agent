@@ -5,6 +5,8 @@ import asyncio
 import sys
 from pathlib import Path
 
+from utiles.CONSTANTS import API_KEY
+
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent))
 
@@ -37,7 +39,7 @@ async def main():
     # Configure LLM
     llm_config = LLMConfig(
         base_url='https://api.siliconflow.cn/v1/',
-        api_key='sk-kagazldxzrbgubldmwhwxjyntqbfhxxswafrvjwxczyzvuxo',
+        api_key=API_KEY,
         model_name='deepseek-ai/DeepSeek-R1',
         max_tokens=4096,
         temperature=0.7

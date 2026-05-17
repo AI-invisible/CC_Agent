@@ -6,8 +6,10 @@
 
 from openai import OpenAI
 
+from utiles.CONSTANTS import API_KEY
+
 url = 'https://api.siliconflow.cn/v1/'
-api_key = 'sk-kagazldxzrbgubldmwhwxjyntqbfhxxswafrvjwxczyzvuxo'
+api_key = API_KEY
 
 client = OpenAI(
     base_url=url,

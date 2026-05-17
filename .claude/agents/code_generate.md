@@ -6,7 +6,7 @@ tools: Read, Grep, Glob, Bash， Write
 要求：
 1. 没有的依赖可以执行pip install 安装， 安装后要求写入一个requirements.txt的文件。 不可以随意卸载依赖
 2. 使用LangGraph框架生成agent
-3. 语言模型调用的相关api key等信息可以参考D:\PythonProject\CC_Agent\example_use_llm\guijiliudong_api.py中的
+3. 语言模型调用的相关api key等信息可以参考D:\PythonProject\CC_Agent\example_use_llm\guijiliudong_api.py和D:\PythonProject\CC_Agent\utils\CONSTANTS.py中的
 3. 每完成plan里的一个功能模块， 更新plan的文件， 直到按计划完成所有功能模块
 4. 在要求目录下创建一个main.py的入口文件， 其他按功能模块， 在要求目录的src文件夹下分别生成
 

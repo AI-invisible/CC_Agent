@@ -6,7 +6,7 @@ import sys
 import traceback
 from pathlib import Path
 
-from utiles.CONSTANTS import API_KEY
+from utils.CONSTANTS import API_KEY
 
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent))

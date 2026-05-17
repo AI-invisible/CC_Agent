@@ -1,6 +1,8 @@
 """
 Main Tool Use Agent implementation using LangGraph
 """
+import sys
+from pathlib import Path
 from typing import Dict, Any, Optional, List, TypedDict, Sequence
 import asyncio
 import os
@@ -23,6 +25,9 @@ from ..fallback.strategies import (
     FallbackResponseHandler,
     GracefulDegradationHandler
 )
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+from utils.CONSTANTS import API_KEY
 
 
 class AgentState(TypedDict):
@@ -90,7 +95,7 @@ class ToolUseAgent:
 
         # Use default credentials from requirements if not in environment
         if not api_key:
-            api_key = 'sk-kagazldxzrbgubldmwhwxjyntqbfhxxswafrvjwxczyzvuxo'
+            api_key = API_KEY
 
         return OpenAI(
             base_url=base_url,

@@ -5,13 +5,12 @@ import asyncio
 import sys
 from pathlib import Path
 
-from utiles.CONSTANTS import API_KEY
-
-# Add src to path
-sys.path.insert(0, str(Path(__file__).parent))
-
+# Add project root to path
 from src.agent import PlanAndExecuteAgent
 from src.models import AgentConfig, LLMConfig
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+from utils.CONSTANTS import API_KEY
 
 
 # Sample tools for demonstration

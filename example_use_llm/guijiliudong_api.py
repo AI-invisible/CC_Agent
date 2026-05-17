@@ -3,10 +3,13 @@
 # @Time : 2026/5/17
 # @File : use_llm.py.py
 # @description :
+import sys
+from pathlib import Path
 
 from openai import OpenAI
 
-from utiles.CONSTANTS import API_KEY
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+from utils.CONSTANTS import API_KEY
 
 url = 'https://api.siliconflow.cn/v1/'
 api_key = API_KEY

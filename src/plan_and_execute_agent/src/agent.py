@@ -142,7 +142,7 @@ class PlanAndExecuteAgent:
         Returns:
             TaskExecution: Execution result
         """
-        return self.task_executor.execute(plan, user_intervention)
+        return await self.task_executor.execute(plan, user_intervention)
 
     def register_tool(self, name: str, func) -> None:
         """

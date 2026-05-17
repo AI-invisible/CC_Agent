@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(mkdir *)",
+      "PowerShell(git add *)",
+      "PowerShell(git commit *)",
+      "PowerShell(python zhipu_api_client.py)"
+    ]
+  }
+}

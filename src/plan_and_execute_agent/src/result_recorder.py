@@ -121,13 +121,29 @@ class ResultRecorder:
         try:
             log_file = self.logs_dir / f"step_{result.step_id}.log"
 
+            # Handle error serialization
+            error_data = None
+            if result.error:
+                if hasattr(result.error, 'model_dump'):
+                    error_data = result.error.model_dump()
+                    # Convert datetime to string for JSON serialization
+                    if 'timestamp' in error_data and error_data['timestamp']:
+                        error_data['timestamp'] = error_data['timestamp'].isoformat()
+                elif hasattr(result.error, 'dict'):
+                    error_data = result.error.dict()
+                    # Convert datetime to string for JSON serialization
+                    if 'timestamp' in error_data and error_data['timestamp']:
+                        error_data['timestamp'] = error_data['timestamp'].isoformat()
+                else:
+                    error_data = {"error_type": type(result.error).__name__, "error_message": str(result.error)}
+
             log_entry = {
                 "timestamp": datetime.now().isoformat(),
                 "step_id": result.step_id,
                 "success": result.success,
                 "output": str(result.output),
                 "execution_time": result.execution_time,
-                "error": result.error if hasattr(result, 'error') else None,
+                "error": error_data,
                 "metadata": result.metadata
             }
 
@@ -407,23 +423,48 @@ class ResultRecorder:
 
     def _step_result_to_dict(self, result: StepResult) -> Dict[str, Any]:
         """Convert step result to dictionary"""
+        error_data = None
+        if result.error:
+            if hasattr(result.error, 'model_dump'):
+                error_data = result.error.model_dump()
+                # Convert datetime to string for JSON serialization
+                if 'timestamp' in error_data and error_data['timestamp']:
+                    error_data['timestamp'] = error_data['timestamp'].isoformat()
+            elif hasattr(result.error, 'dict'):
+                error_data = result.error.dict()
+                # Convert datetime to string for JSON serialization
+                if 'timestamp' in error_data and error_data['timestamp']:
+                    error_data['timestamp'] = error_data['timestamp'].isoformat()
+            else:
+                error_data = {"error_type": type(result.error).__name__, "error_message": str(result.error)}
+
         return {
             "step_id": result.step_id,
             "success": result.success,
             "output": str(result.output),
             "execution_time": result.execution_time,
-            "error": result.error,
+            "error": error_data,
             "metadata": result.metadata
         }
 
     def _dict_to_step_result(self, result_data: Dict[str, Any]) -> StepResult:
         """Convert dictionary to step result"""
+        from .models import ErrorInfo
+
+        error_obj = None
+        if result_data.get("error"):
+            error_dict = result_data["error"].copy()
+            # Convert string back to datetime if present
+            if 'timestamp' in error_dict and error_dict['timestamp'] and isinstance(error_dict['timestamp'], str):
+                error_dict['timestamp'] = datetime.fromisoformat(error_dict['timestamp'])
+            error_obj = ErrorInfo(**error_dict)
+
         return StepResult(
             step_id=result_data["step_id"],
             success=result_data["success"],
             output=result_data["output"],
             execution_time=result_data["execution_time"],
-            error=result_data.get("error"),
+            error=error_obj,
             metadata=result_data.get("metadata", {})
         )
 

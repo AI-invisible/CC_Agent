@@ -11,6 +11,7 @@ from openai import OpenAI
 
 from .models import (
     AgentConfig,
+    ErrorInfo,
     ExecutionStatus,
     PlanStatus,
     Step,
@@ -174,12 +175,17 @@ class TaskExecutor:
                 return await self.error_handler.retry_step(step, self._execute_step_internal, context)
 
             # Return failure
+            error_info = ErrorInfo(
+                error_type=type(error).__name__,
+                error_message=str(error),
+                context={"step_id": step.step_id}
+            )
             return StepResult(
                 step_id=step.step_id,
                 success=False,
                 output=None,
                 execution_time=self.config.execution_config.timeout_per_step,
-                error=type(error).__name__
+                error=error_info
             )
 
         except Exception as e:
@@ -237,12 +243,17 @@ class TaskExecutor:
             end_time = datetime.now()
             execution_time = (end_time - start_time).total_seconds()
 
+            error_info = ErrorInfo(
+                error_type=type(e).__name__,
+                error_message=str(e),
+                context={"step_id": step.step_id}
+            )
             return StepResult(
                 step_id=step.step_id,
                 success=False,
                 output=str(e),
                 execution_time=execution_time,
-                error=type(e).__name__
+                error=error_info
             )
 
     async def _execute_tool_call(

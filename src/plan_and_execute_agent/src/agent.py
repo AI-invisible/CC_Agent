@@ -84,7 +84,7 @@ class PlanAndExecuteAgent:
         print("-"*60)
 
         for idx, result in enumerate(execution.step_results, 1):
-            status = "✓" if result.success else "✗"
+            status = "[OK]" if result.success else "[FAIL]"
             print(f"{status} Step {idx}: {result.step_id}")
             print(f"  Status: {'Success' if result.success else 'Failed'}")
             print(f"  Execution Time: {result.execution_time:.2f}s")
